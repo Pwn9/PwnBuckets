@@ -1,0 +1,13 @@
+# Which worlds should this plugin be enabled in? Worlds not in this list will not be affected
+enabled_worlds:
+  - example_world
+  - example_world_nether
+
+# Stop buckets from transporting source blocks
+block_water_bucket: false
+
+# Stop dispensers from transporting source blocks
+block_water_dispenser: false
+    
+# Run a debug log to view additional plugin data for troubleshooting and configuration, turn off in production!
+debug_log: false
