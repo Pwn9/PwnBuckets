@@ -1,6 +1,6 @@
 main: com.pwn9.PwnBuckets.PwnBuckets
 name: PwnBuckets
-version: 0.1
+version: 0.2
 author: tremor77
 description: Make water behave more like... water.
 website: http://pwn9.com

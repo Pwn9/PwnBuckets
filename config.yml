@@ -3,11 +3,17 @@ enabled_worlds:
   - example_world
   - example_world_nether
 
-# Stop buckets from transporting source blocks
+# Globally stop buckets from transporting source blocks
 block_water_bucket: false
 
-# Stop dispensers from transporting source blocks
+# Biome bypass for water buckets, list type: [beach, ocean] (anything from this list http://jd.bukkit.org/rb/apidocs/org/bukkit/block/Biome.html)
+bucket_allowed_biomes: []
+
+# Globally stop dispensers from transporting source blocks
 block_water_dispenser: false
-    
+
+# Biome bypass for dispensers, list type: [beach, ocean] (anything from this list http://jd.bukkit.org/rb/apidocs/org/bukkit/block/Biome.html)
+dispenser_allowed_biomes: []
+   
 # Run a debug log to view additional plugin data for troubleshooting and configuration, turn off in production!
 debug_log: false

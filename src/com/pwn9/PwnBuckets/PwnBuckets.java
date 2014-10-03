@@ -24,6 +24,8 @@ public class PwnBuckets extends JavaPlugin
 	public static Boolean blockWaterBucket;
 	public static Boolean blockWaterDispenser;
 	public static List<String> enabledWorlds;
+	public static List<String> bucketBypass;
+	public static List<String> dispenserBypass;
 
 	public void onEnable() 
 	{
@@ -52,8 +54,14 @@ public class PwnBuckets extends JavaPlugin
 		// Get water source setting
 		PwnBuckets.blockWaterBucket = getConfig().getBoolean("block_water_bucket", false);
 		
+		// Get biome bypass settings
+		PwnBuckets.bucketBypass = getConfig().getStringList("bucket_allowed_biomes");
+		
 		// Get water source setting
 		PwnBuckets.blockWaterDispenser = getConfig().getBoolean("block_water_dispenser", false);
+		
+		// Get biome bypass settings
+		PwnBuckets.dispenserBypass = getConfig().getStringList("dispenser_allowed_biomes");
 		
 		// Get logfile setting
 		PwnBuckets.logEnabled = getConfig().getBoolean("debug_log", false);
@@ -79,6 +87,18 @@ public class PwnBuckets extends JavaPlugin
 		return enabledWorlds.contains(world);
 	}	
 
+	public static boolean containsCaseInsensitive(String s, List<String> l)
+	{
+		for (String string : l)
+		{
+			if (string.equalsIgnoreCase(s))
+			{
+				return true;
+			}
+		}
+		return false;
+	}	
+	
 	public static void logToFile(String message) 
 	{   
 	    	try 

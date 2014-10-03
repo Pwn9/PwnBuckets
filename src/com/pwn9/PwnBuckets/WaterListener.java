@@ -28,6 +28,14 @@ public class WaterListener implements Listener
 	public void onPlayerEmptyBucket(PlayerBucketEmptyEvent event)
 	{
 		World world = event.getPlayer().getWorld();
+		
+		String biome = String.valueOf(event.getPlayer().getLocation().getBlock().getBiome());
+		
+		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.bucketBypass)) 
+		{
+			return;
+		}
+		
 		if (PwnBuckets.isEnabledIn(world.getName())) 
 		{
 			if(PwnBuckets.blockWaterBucket)
@@ -62,6 +70,14 @@ public class WaterListener implements Listener
 	public void onBlockDispense(BlockDispenseEvent event)
 	{
 		World world = event.getBlock().getWorld();
+		
+		String biome = String.valueOf(event.getBlock().getBiome());
+		
+		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.dispenserBypass)) 
+		{
+			return;
+		}
+		
 		if (PwnBuckets.isEnabledIn(world.getName())) 
 		{
 			if(PwnBuckets.blockWaterDispenser)
