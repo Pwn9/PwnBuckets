@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
+import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.material.Dispenser;
 import org.bukkit.material.MaterialData;
@@ -102,6 +103,49 @@ public class WaterListener implements Listener
 				}
 	    	}
 		}
+	}
+	
+	// when ice melts?
+	@EventHandler(ignoreCancelled = true)
+	public void onBlockFade(BlockFadeEvent event) {
+
+		World world = event.getBlock().getWorld();
+		
+		String biome = String.valueOf(event.getBlock().getBiome());
+		
+		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.icemeltBypass)) 
+		{
+			return;
+		}
+		
+		if (PwnBuckets.isEnabledIn(world.getName())) 
+		{
+			if(PwnBuckets.blockIceMelt)
+	    	{				
+				//only care about water
+				if(event.getNewState().getType() == Material.WATER)
+				{					
+
+	    			Block block = event.getBlock();
+	    			
+	    			// If the block is already water then don't do anything, otherwise set it water then set it air for water effect.
+	    			if (!isWater(block)) 
+	    			{
+		    			block.setType(Material.WATER);
+		    			EvaporateWaterTask task = new EvaporateWaterTask(block);
+		    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
+	    			}	 
+	    			
+		    		event.setCancelled(true);
+	    			
+	    	    	if (PwnBuckets.logEnabled) 
+	    	    	{	
+	    	    		PwnBuckets.logToFile("Blocked water source from ice melt");
+	    	    	}
+				}
+	    	}
+		}		
+		
 	}
 	
 	public boolean isWater(Block block)
