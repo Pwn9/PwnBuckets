@@ -112,7 +112,7 @@ public class WaterListener implements Listener
 		World world = event.getBlock().getWorld();
 		
 		String biome = String.valueOf(event.getBlock().getBiome());
-		
+			
 		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.icemeltBypass)) 
 		{
 			return;
@@ -123,18 +123,14 @@ public class WaterListener implements Listener
 			if(PwnBuckets.blockIceMelt)
 	    	{				
 				//only care about water
-				if(event.getNewState().getType() == Material.WATER)
+				if(event.getNewState().getType() == Material.STATIONARY_WATER)
 				{					
 
 	    			Block block = event.getBlock();
 	    			
-	    			// If the block is already water then don't do anything, otherwise set it water then set it air for water effect.
-	    			if (!isWater(block)) 
-	    			{
-		    			block.setType(Material.WATER);
-		    			EvaporateWaterTask task = new EvaporateWaterTask(block);
-		    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
-	    			}	 
+	    			block.setType(Material.WATER);
+	    			EvaporateWaterTask task = new EvaporateWaterTask(block);
+	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
 	    			
 		    		event.setCancelled(true);
 	    			
