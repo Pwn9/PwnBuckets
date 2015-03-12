@@ -22,10 +22,12 @@ public class PwnBuckets extends JavaPlugin
 	public static File dataFolder;
 	public static Boolean logEnabled;
 	public static Boolean blockWaterBucket;
+	public static Boolean blockLavaBucket;
 	public static Boolean blockWaterDispenser;
 	public static Boolean blockIceMelt;	
 	public static List<String> enabledWorlds;
 	public static List<String> bucketBypass;
+	public static List<String> lavaBucketBypass;
 	public static List<String> dispenserBypass;
 	public static List<String> icemeltBypass;
 
@@ -70,6 +72,12 @@ public class PwnBuckets extends JavaPlugin
 		
 		// Get ice melt bypass settings
 		PwnBuckets.icemeltBypass = getConfig().getStringList("ice_melt_allowed_biomes");
+		
+		// Get lava source setting
+		PwnBuckets.blockLavaBucket = getConfig().getBoolean("block_lava_bucket", false);
+		
+		// Get biome lava bypass settings
+		PwnBuckets.lavaBucketBypass = getConfig().getStringList("lava_bucket_allowed_biomes");
 		
 		// Get logfile setting
 		PwnBuckets.logEnabled = getConfig().getBoolean("debug_log", false);

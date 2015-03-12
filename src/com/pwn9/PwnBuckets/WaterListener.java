@@ -32,18 +32,22 @@ public class WaterListener implements Listener
 		
 		String biome = String.valueOf(event.getPlayer().getLocation().getBlock().getBiome());
 		
-		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.bucketBypass)) 
-		{
-			return;
-		}
+		Player player = event.getPlayer();
 		
-		if (PwnBuckets.isEnabledIn(world.getName())) 
-		{
-			if(PwnBuckets.blockWaterBucket)
-	    	{				
-	    		Player player = event.getPlayer();
-	    		if(player.getItemInHand().getType() == Material.WATER_BUCKET) 
-	    		{   			
+		Material bucket = player.getItemInHand().getType();
+
+		// check if this is water bucket 
+		if(bucket == Material.WATER_BUCKET) 
+		{   
+			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.bucketBypass)) 
+			{
+				return;
+			}
+		
+			if (PwnBuckets.isEnabledIn(world.getName())) 
+			{
+				if(PwnBuckets.blockWaterBucket)
+				{					
 	    			player.getItemInHand().setType(Material.BUCKET);
 	    			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
 	    			
@@ -62,8 +66,42 @@ public class WaterListener implements Listener
 	    	    		PwnBuckets.logToFile("Blocked water source from bucket");
 	    	    	}
 	    		}
-	    	}
+			}
 		}
+		
+		// check if this is lava bucket 
+		else if(bucket == Material.LAVA_BUCKET) 
+		{   
+			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.lavaBucketBypass)) 
+			{
+				return;
+			}
+		
+			if (PwnBuckets.isEnabledIn(world.getName())) 
+			{
+				if(PwnBuckets.blockLavaBucket)
+				{				
+	    			player.getItemInHand().setType(Material.BUCKET);
+	    			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
+	    			
+	    			// If the block is already lava then don't do anything, otherwise set it lava then set it air for lava effect.
+	    			if (!isLava(block)) 
+	    			{
+		    			block.setType(Material.LAVA);
+		    			EvaporateLavaTask task = new EvaporateLavaTask(block);
+		    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 120L);
+	    			}	 
+	    			
+		    		event.setCancelled(true);
+		    		
+	    	    	if (PwnBuckets.logEnabled) 
+	    	    	{	
+	    	    		PwnBuckets.logToFile("Blocked lava source from bucket");
+	    	    	}
+	    		}
+			}
+		}
+		
 	}
 	
 	//when a dispenser dispenses...
@@ -153,6 +191,14 @@ public class WaterListener implements Listener
 		return false;	
 	}		
 
+	public boolean isLava(Block block)
+	{	
+		if(block.getType() == Material.STATIONARY_LAVA|| block.getType() == Material.LAVA) 
+		{
+			return true;
+		}
+		return false;	
+	}	
 }
 	
 	
