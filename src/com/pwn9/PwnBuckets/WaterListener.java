@@ -112,18 +112,18 @@ public class WaterListener implements Listener
 		
 		String biome = String.valueOf(event.getBlock().getBiome());
 		
-		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.dispenserBypass)) 
-		{
-			return;
-		}
-		
 		if (PwnBuckets.isEnabledIn(world.getName())) 
 		{
-			if(PwnBuckets.blockWaterDispenser)
-	    	{				
-				//only care about water
-				if(event.getItem().getType() == Material.WATER_BUCKET)
-				{					
+			//only care about water
+			if(event.getItem().getType() == Material.WATER_BUCKET)
+			{			
+				if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.dispenserBypass)) 
+				{
+					return;
+				}
+	
+				if(PwnBuckets.blockWaterDispenser)
+				{				
 					Block dispenser = event.getBlock();
 					// Get direction dispenser is facing 
 					MaterialData mat = dispenser.getState().getData(); 
@@ -138,8 +138,36 @@ public class WaterListener implements Listener
 	    	    	{	
 	    	    		PwnBuckets.logToFile("Blocked water source from dispenser");
 	    	    	}
+	    		}
+			}
+			
+			//only care about lava 
+			else if(event.getItem().getType() == Material.LAVA_BUCKET)
+			{			
+				if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.lavaDispenserBypass)) 
+				{
+					return;
 				}
-	    	}
+	
+				if(PwnBuckets.blockLavaDispenser)
+				{				
+					Block dispenser = event.getBlock();
+					// Get direction dispenser is facing 
+					MaterialData mat = dispenser.getState().getData(); 
+					Dispenser disp_mat = (Dispenser) mat; 
+					BlockFace face = disp_mat.getFacing(); 			
+					Block block = dispenser.getRelative(face);			
+					
+	    			EvaporateLavaTask task = new EvaporateLavaTask(block);
+	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 120L);
+	    			
+	    	    	if (PwnBuckets.logEnabled) 
+	    	    	{	
+	    	    		PwnBuckets.logToFile("Blocked lava source from dispenser");
+	    	    	}
+	    		}
+			}			
+			
 		}
 	}
 	

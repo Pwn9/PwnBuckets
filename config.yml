@@ -27,5 +27,11 @@ block_lava_bucket: false
 # Biome bypass for lava buckets, list type: [beach, ocean] (anything from this list http://jd.bukkit.org/rb/apidocs/org/bukkit/block/Biome.html)
 lava_bucket_allowed_biomes: []
    
+# Globally stop dispensers from transporting lava source blocks
+block_lava_dispenser: false
+
+# Biome bypass for lava dispensers, list type: [beach, ocean] (anything from this list http://jd.bukkit.org/rb/apidocs/org/bukkit/block/Biome.html)
+lava_dispenser_allowed_biomes: []
+   
 # Run a debug log to view additional plugin data for troubleshooting and configuration, turn off in production!
 debug_log: false
