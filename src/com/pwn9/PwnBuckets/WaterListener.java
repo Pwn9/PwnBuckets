@@ -4,12 +4,12 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Dispenser;
 import org.bukkit.material.MaterialData;
 
@@ -32,13 +32,13 @@ public class WaterListener implements Listener
 		
 		String biome = String.valueOf(event.getPlayer().getLocation().getBlock().getBiome());
 		
-		Player player = event.getPlayer();
+		Material bucket = event.getBucket();
 		
-		Material bucket = player.getItemInHand().getType();
-
-		// check if this is water bucket 
-		if(bucket == Material.WATER_BUCKET) 
-		{   
+		// An empty bucket
+		ItemStack emptyBucket = new ItemStack(Material.BUCKET, 1);
+		
+		if (bucket.toString().contains("WATER")) {
+			
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.bucketBypass)) 
 			{
 				return;
@@ -47,8 +47,10 @@ public class WaterListener implements Listener
 			if (PwnBuckets.isEnabledIn(world.getName())) 
 			{
 				if(PwnBuckets.blockWaterBucket)
-				{					
-	    			player.getItemInHand().setType(Material.BUCKET);
+				{	
+					event.setItemStack(emptyBucket);
+	    			// dual wield now: player.getItemInHand().setType(Material.BUCKET);
+					
 	    			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
 	    			
 	    			// If the block is already water then don't do anything, otherwise set it water then set it air for water effect.
@@ -66,12 +68,11 @@ public class WaterListener implements Listener
 	    	    		PwnBuckets.logToFile("Blocked water source from bucket");
 	    	    	}
 	    		}
-			}
+			}		 
 		}
 		
-		// check if this is lava bucket 
-		else if(bucket == Material.LAVA_BUCKET) 
-		{   
+		if (bucket.toString().contains("LAVA")) {
+			
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.lavaBucketBypass)) 
 			{
 				return;
@@ -81,7 +82,9 @@ public class WaterListener implements Listener
 			{
 				if(PwnBuckets.blockLavaBucket)
 				{				
-	    			player.getItemInHand().setType(Material.BUCKET);
+					event.setItemStack(emptyBucket);
+	    			// dual wield now: player.getItemInHand().setType(Material.BUCKET);
+					
 	    			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
 	    			
 	    			// If the block is already lava then don't do anything, otherwise set it lava then set it air for lava effect.
@@ -99,8 +102,13 @@ public class WaterListener implements Listener
 	    	    		PwnBuckets.logToFile("Blocked lava source from bucket");
 	    	    	}
 	    		}
-			}
+			}			 
 		}
+	
+		//TODO: fix for dual wield
+		//Material bucket = player.getItemInHand().getType();
+		//Material onBucket = player.getInventory().getItemInMainHand().getType();
+		//Material offBucket = player.getInventory().getItemInOffHand().getType();
 		
 	}
 	
