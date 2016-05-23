@@ -1,4 +1,5 @@
 /bin/
-
-*.class
-*.classpath
+/.settings/
+.class
+.classpath
+.project
