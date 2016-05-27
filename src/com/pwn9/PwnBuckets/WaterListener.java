@@ -1,9 +1,11 @@
 package com.pwn9.PwnBuckets;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
@@ -30,6 +32,13 @@ public class WaterListener implements Listener
 	{
 		World world = event.getPlayer().getWorld();
 		
+		Player player = event.getPlayer();
+		
+		// let creative mode dump water and lava all they want with buckets
+		if((player.getGameMode() == GameMode.CREATIVE) && (!PwnBuckets.blockCreativeSource)) {
+			return;
+		}
+		
 		String biome = String.valueOf(event.getPlayer().getLocation().getBlock().getBiome());
 		
 		Material bucket = event.getBucket();
@@ -39,6 +48,7 @@ public class WaterListener implements Listener
 		
 		if (bucket.toString().contains("WATER")) {
 			
+			// if the biome has a bypass allow dumping water
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.bucketBypass)) 
 			{
 				return;
@@ -73,6 +83,7 @@ public class WaterListener implements Listener
 		
 		if (bucket.toString().contains("LAVA")) {
 			
+			// if the biome has a bypass allow dumping lava
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.lavaBucketBypass)) 
 			{
 				return;
@@ -83,7 +94,6 @@ public class WaterListener implements Listener
 				if(PwnBuckets.blockLavaBucket)
 				{				
 					event.setItemStack(emptyBucket);
-	    			// dual wield now: player.getItemInHand().setType(Material.BUCKET);
 					
 	    			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
 	    			
@@ -104,12 +114,6 @@ public class WaterListener implements Listener
 	    		}
 			}			 
 		}
-	
-		//TODO: fix for dual wield
-		//Material bucket = player.getItemInHand().getType();
-		//Material onBucket = player.getInventory().getItemInMainHand().getType();
-		//Material offBucket = player.getInventory().getItemInOffHand().getType();
-		
 	}
 	
 	//when a dispenser dispenses...
@@ -125,6 +129,7 @@ public class WaterListener implements Listener
 			//only care about water
 			if(event.getItem().getType() == Material.WATER_BUCKET)
 			{			
+				// if the biome has a bypass allow dumping water
 				if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.dispenserBypass)) 
 				{
 					return;
@@ -152,6 +157,7 @@ public class WaterListener implements Listener
 			//only care about lava 
 			else if(event.getItem().getType() == Material.LAVA_BUCKET)
 			{			
+				// if the biome has a bypass allow dumping lava
 				if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.lavaDispenserBypass)) 
 				{
 					return;
@@ -186,7 +192,8 @@ public class WaterListener implements Listener
 		World world = event.getBlock().getWorld();
 		
 		String biome = String.valueOf(event.getBlock().getBiome());
-			
+		
+		// if the biome has a bypass, allow ice to melt
 		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.icemeltBypass)) 
 		{
 			return;
