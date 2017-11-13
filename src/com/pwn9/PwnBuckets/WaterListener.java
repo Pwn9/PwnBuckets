@@ -71,7 +71,9 @@ public class WaterListener implements Listener
 		    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
 	    			}	 
 	    			
-		    		event.setCancelled(true);
+		    		//event.setCancelled(true);
+		    		
+		    		event.setItemStack(emptyBucket);
 		    		
 	    	    	if (PwnBuckets.logEnabled) 
 	    	    	{	
@@ -105,8 +107,10 @@ public class WaterListener implements Listener
 		    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 120L);
 	    			}	 
 	    			
-		    		event.setCancelled(true);
-		    		
+		    		//event.setCancelled(true);
+	    			
+	    			event.setItemStack(emptyBucket);
+	    			
 	    	    	if (PwnBuckets.logEnabled) 
 	    	    	{	
 	    	    		PwnBuckets.logToFile("Blocked lava source from bucket");
