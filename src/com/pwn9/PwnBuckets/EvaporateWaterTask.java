@@ -36,6 +36,7 @@ public class EvaporateWaterTask implements Runnable
 		{
 			this.block.getRelative(BlockFace.EAST).setType(Material.AIR);
 		}
+		
 	}	
 	
 	public boolean isWater(Block block)

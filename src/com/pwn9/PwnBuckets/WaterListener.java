@@ -42,10 +42,10 @@ public class WaterListener implements Listener
 		String biome = String.valueOf(event.getPlayer().getLocation().getBlock().getBiome());
 		
 		Material bucket = event.getBucket();
-		
-		// An empty bucket
-		ItemStack emptyBucket = new ItemStack(Material.BUCKET, 1);
-		
+		ItemStack mainBucket = player.getInventory().getItemInMainHand();
+		ItemStack offBucket = player.getInventory().getItemInOffHand();
+				
+		// if its water
 		if (bucket.toString().contains("WATER")) {
 			
 			// if the biome has a bypass allow dumping water
@@ -58,11 +58,9 @@ public class WaterListener implements Listener
 			{
 				if(PwnBuckets.blockWaterBucket)
 				{	
-					event.setItemStack(emptyBucket);
-	    			// dual wield now: player.getItemInHand().setType(Material.BUCKET);
-					
+					//event.setItemStack(emptyBucket);
 	    			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
-	    			
+		    		
 	    			// If the block is already water then don't do anything, otherwise set it water then set it air for water effect.
 	    			if (!isWater(block)) 
 	    			{
@@ -70,10 +68,22 @@ public class WaterListener implements Listener
 		    			EvaporateWaterTask task = new EvaporateWaterTask(block);
 		    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
 	    			}	 
-	    			
-		    		//event.setCancelled(true);
 		    		
-		    		event.setItemStack(emptyBucket);
+	    			// run the inventory change in a task
+	    			if (mainBucket.getType() == Material.WATER_BUCKET) {
+		    			ClearBucketTask clearTask = new ClearBucketTask(player, true);
+		    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
+	    			}
+	    			else if (offBucket.getType() == Material.WATER_BUCKET){
+		    			ClearBucketTask clearTask = new ClearBucketTask(player, false);
+		    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
+	    			}
+	    			else {
+	    				// this shouldn't happen
+	    				PwnBuckets.logToFile("Couldn't identify bucket hand.");
+	    			}
+	    			
+		    		event.setCancelled(true);
 		    		
 	    	    	if (PwnBuckets.logEnabled) 
 	    	    	{	
@@ -83,6 +93,7 @@ public class WaterListener implements Listener
 			}		 
 		}
 		
+		// if its lava
 		if (bucket.toString().contains("LAVA")) {
 			
 			// if the biome has a bypass allow dumping lava
@@ -94,11 +105,10 @@ public class WaterListener implements Listener
 			if (PwnBuckets.isEnabledIn(world.getName())) 
 			{
 				if(PwnBuckets.blockLavaBucket)
-				{				
-					event.setItemStack(emptyBucket);
-					
+				{	
+					//event.setItemStack(emptyBucket);
 	    			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
-	    			
+		    			    			
 	    			// If the block is already lava then don't do anything, otherwise set it lava then set it air for lava effect.
 	    			if (!isLava(block)) 
 	    			{
@@ -106,12 +116,24 @@ public class WaterListener implements Listener
 		    			EvaporateLavaTask task = new EvaporateLavaTask(block);
 		    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 120L);
 	    			}	 
+
+	    			// run the inventory change in a task
+	    			if (mainBucket.getType() == Material.LAVA_BUCKET) {
+		    			ClearBucketTask clearTask = new ClearBucketTask(player, true);
+		    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
+	    			}
+	    			else if (offBucket.getType() == Material.LAVA_BUCKET){
+		    			ClearBucketTask clearTask = new ClearBucketTask(player, false);
+		    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
+	    			}
+	    			else {
+	    				// this shouldn't happen
+	    				PwnBuckets.logToFile("Couldn't identify bucket hand.");
+	    			}
 	    			
-		    		//event.setCancelled(true);
+	    			event.setCancelled(true);
 	    			
-	    			event.setItemStack(emptyBucket);
-	    			
-	    	    	if (PwnBuckets.logEnabled) 
+	    		  	if (PwnBuckets.logEnabled) 
 	    	    	{	
 	    	    		PwnBuckets.logToFile("Blocked lava source from bucket");
 	    	    	}

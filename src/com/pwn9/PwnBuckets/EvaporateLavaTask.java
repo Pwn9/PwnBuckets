@@ -12,7 +12,7 @@ public class EvaporateLavaTask implements Runnable
 	{
 		this.block = block;
 	}
-	
+
 	@Override
 	public void run()
 	{
@@ -36,6 +36,7 @@ public class EvaporateLavaTask implements Runnable
 		{
 			this.block.getRelative(BlockFace.EAST).setType(Material.AIR);
 		}
+	
 	}	
 	
 	public boolean isLava(Block block)
