@@ -22,8 +22,7 @@ public class ClearBucketTask implements Runnable
 
 		ItemStack emptyBucket = new ItemStack(Material.BUCKET, 1);
 		ItemStack air = new ItemStack(Material.AIR);
-		
-		
+			
 		if (mainHand) {
 			player.getInventory().setItemInMainHand(air);
 			player.getInventory().setItemInMainHand(emptyBucket);

@@ -14,10 +14,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.pwn9.PwnBuckets.MetricsLite;
 import com.pwn9.PwnBuckets.PwnBuckets;
 import com.pwn9.PwnBuckets.WaterListener;
-import com.pwn9.PwnBuckets.PwnBuckets;
+import com.pwn9.PwnBuckets.Config;
 
 public class PwnBuckets extends JavaPlugin 
 {
+	
+	// For convenience, a reference to the instance of this plugin
+	public static PwnBuckets instance;
 	
 	public static File dataFolder;
 	public static Boolean logEnabled;
@@ -36,6 +39,9 @@ public class PwnBuckets extends JavaPlugin
 
 	public void onEnable() 
 	{
+		// Create an instance of this, for some reason, I forget why.
+		instance = this;
+		
 		this.saveDefaultConfig();
 		
 		// Start Metrics
@@ -54,45 +60,9 @@ public class PwnBuckets extends JavaPlugin
 		
 		// Get data folder
 		PwnBuckets.dataFolder = getDataFolder();
-		
-		// Get enabled worlds
-		PwnBuckets.enabledWorlds = getConfig().getStringList("enabled_worlds");
-		
-		// Get water source setting
-		PwnBuckets.blockWaterBucket = getConfig().getBoolean("block_water_bucket", false);
-		
-		// Get biome bypass settings
-		PwnBuckets.bucketBypass = getConfig().getStringList("bucket_allowed_biomes");
-		
-		// Get water source setting
-		PwnBuckets.blockWaterDispenser = getConfig().getBoolean("block_water_dispenser", false);
-		
-		// Get biome bypass settings
-		PwnBuckets.dispenserBypass = getConfig().getStringList("dispenser_allowed_biomes");
-
-		// Get ice melt setting
-		PwnBuckets.blockIceMelt = getConfig().getBoolean("block_ice_melt", false);
-		
-		// Get ice melt bypass settings
-		PwnBuckets.icemeltBypass = getConfig().getStringList("ice_melt_allowed_biomes");
-		
-		// Get lava source setting
-		PwnBuckets.blockLavaBucket = getConfig().getBoolean("block_lava_bucket", false);
-		
-		// Get biome lava bypass settings
-		PwnBuckets.lavaBucketBypass = getConfig().getStringList("lava_bucket_allowed_biomes");
-	
-		// Get water source setting
-		PwnBuckets.blockLavaDispenser = getConfig().getBoolean("block_lava_dispenser", false);
-		
-		// Get biome bypass settings
-		PwnBuckets.lavaDispenserBypass = getConfig().getStringList("lava_dispenser_allowed_biomes");
-		
-		// Get ice melt setting
-		PwnBuckets.blockCreativeSource = getConfig().getBoolean("block_creative_source", false);
-		
-		// Get logfile setting
-		PwnBuckets.logEnabled = getConfig().getBoolean("debug_log", false);
+				
+		// Load Configurable Values
+		Config.LoadConfig();
 		
     	if (PwnBuckets.logEnabled) 
     	{	
