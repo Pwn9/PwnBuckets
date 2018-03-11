@@ -35,7 +35,7 @@ public class WaterListener implements Listener
 		Player player = event.getPlayer();
 		
 		// let creative mode dump water and lava all they want with buckets
-		if((player.getGameMode() == GameMode.CREATIVE) && (!PwnBuckets.blockCreativeSource)) {
+		if((player.getGameMode() == GameMode.CREATIVE) && ((!PwnBuckets.blockCreativeSource) || (player.hasPermission("pwnbuckets.creativebucket")))) {
 			return;
 		}
 		
@@ -46,7 +46,7 @@ public class WaterListener implements Listener
 		ItemStack offBucket = player.getInventory().getItemInOffHand();
 				
 		// if its water
-		if (bucket.toString().contains("WATER")) {
+		if (bucket.toString().contains("WATER") && (!player.hasPermission("pwnbuckets.lavabucket"))) {
 			
 			// if the biome has a bypass allow dumping water
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.bucketBypass)) 
@@ -94,7 +94,7 @@ public class WaterListener implements Listener
 		}
 		
 		// if its lava
-		if (bucket.toString().contains("LAVA")) {
+		if (bucket.toString().contains("LAVA") && (!player.hasPermission("pwnbuckets.lavabucket"))) {
 			
 			// if the biome has a bypass allow dumping lava
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.lavaBucketBypass)) 
