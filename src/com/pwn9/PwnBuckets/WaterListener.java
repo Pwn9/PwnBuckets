@@ -46,7 +46,7 @@ public class WaterListener implements Listener
 		ItemStack offBucket = player.getInventory().getItemInOffHand();
 				
 		// if its water
-		if (bucket.toString().contains("WATER") && (!player.hasPermission("pwnbuckets.lavabucket"))) {
+		if (bucket.toString().contains("WATER") && (!player.hasPermission("pwnbuckets.waterbucket"))) {
 			
 			// if the biome has a bypass allow dumping water
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.bucketBypass)) 
