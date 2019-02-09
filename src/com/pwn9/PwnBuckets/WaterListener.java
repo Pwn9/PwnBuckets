@@ -152,6 +152,7 @@ public class WaterListener implements Listener
 		
 		if (PwnBuckets.isEnabledIn(world.getName())) 
 		{
+	    	
 			//only care about water
 			if(event.getItem().getType() == Material.WATER_BUCKET)
 			{			
@@ -228,9 +229,14 @@ public class WaterListener implements Listener
 		if (PwnBuckets.isEnabledIn(world.getName())) 
 		{
 			if(PwnBuckets.blockIceMelt)
-	    	{				
+	    	{			
+    	    	if (PwnBuckets.logEnabled) 
+    	    	{	
+    	    		PwnBuckets.logToFile("Block fade event result: " + event.getNewState().getType().toString());
+    	    	}
+    	    	
 				//only care about water
-				if(event.getNewState().getType() == Material.STATIONARY_WATER)
+				if ((event.getNewState().getType() == Material.STATIONARY_WATER) || (event.getNewState().getType() == Material.WATER))
 				{					
 
 	    			Block block = event.getBlock();

@@ -39,7 +39,6 @@ public class PwnBuckets extends JavaPlugin
 
 	public void onEnable() 
 	{
-		// Create an instance of this, for some reason, I forget why.
 		instance = this;
 		
 		this.saveDefaultConfig();
