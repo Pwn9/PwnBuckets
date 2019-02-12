@@ -47,12 +47,13 @@ public class WaterListener implements Listener
 		String biome = String.valueOf(event.getPlayer().getLocation().getBlock().getBiome());
 		
 		Material bucket = event.getBucket();
+		ItemStack result = event.getItemStack();
 		ItemStack mainBucket = player.getInventory().getItemInMainHand();
 		ItemStack offBucket = player.getInventory().getItemInOffHand();
 				
     	if (PwnBuckets.logEnabled) 
     	{	
-    		PwnBuckets.logToFile("Bucket empty event for: " + bucket.toString() + " Main Hand: " + mainBucket.getType().toString() + " Off Hand: " + offBucket.getType().toString());
+    		PwnBuckets.logToFile("Bucket empty event for: " + bucket.toString() + " Main Hand: " + mainBucket.getType().toString() + " Off Hand: " + offBucket.getType().toString() + " Result: " + result.getType().toString());
     	}
     	
 		// if its water
@@ -78,7 +79,13 @@ public class WaterListener implements Listener
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
     			}	 
 	    		
+    			
+    			//NOTE: we don't really need to cancel event here - we can just let the event finish.. it will clear the bucket itself, 
+    			// and the evaporate task will clear the placed water block.
+    			
     			// run the inventory change in a task
+    			
+    			/*
     			if (mainBucket.getType().toString().contains("BUCKET")) {
 	    			ClearBucketTask clearTask = new ClearBucketTask(player, true);
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
@@ -95,12 +102,14 @@ public class WaterListener implements Listener
 	    	    	}
     			}
     			
-	    		event.setCancelled(true);
+	    		event.setCancelled(true);*/
 	    		
     	    	if (PwnBuckets.logEnabled) 
     	    	{	
     	    		PwnBuckets.logToFile("Blocked water source from bucket");
     	    	}
+    	    	
+    	    	return;
     		}	 
 		}
 		
@@ -126,7 +135,12 @@ public class WaterListener implements Listener
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 120L);
     			}	 
 
+    			//NOTE: we don't really need to cancel event here - we can just let the event finish.. it will clear the bucket itself, 
+    			// and the evaporate task will clear the placed water block.
+    			
     			// run the inventory change in a task
+    			
+    			/*
     			if (mainBucket.getType() == Material.LAVA_BUCKET) {
 	    			ClearBucketTask clearTask = new ClearBucketTask(player, true);
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
@@ -144,11 +158,14 @@ public class WaterListener implements Listener
     			}
     			
     			event.setCancelled(true);
+    			*/
     			
     		  	if (PwnBuckets.logEnabled) 
     	    	{	
     	    		PwnBuckets.logToFile("Blocked lava source from bucket");
     	    	}
+    		  	
+    		  	return;
     		}
 		}			 
 	}
@@ -250,7 +267,6 @@ public class WaterListener implements Listener
 			return;
 		}		
 		
-
 		if(PwnBuckets.blockIceMelt)
     	{			
 	    	if (PwnBuckets.logEnabled) 
