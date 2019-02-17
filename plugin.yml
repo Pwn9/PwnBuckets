@@ -4,6 +4,7 @@ version: 1.4
 author: tremor77
 description: Make water behave more like... water.
 website: http://pwn9.com
+api-version: 1.13
 permissions:
   pwnbuckets.waterbucket: 
     description: Player will be able to use source water buckets.

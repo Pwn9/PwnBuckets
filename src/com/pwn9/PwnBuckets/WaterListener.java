@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Dispenser;
 import org.bukkit.material.MaterialData;
 
@@ -47,17 +46,17 @@ public class WaterListener implements Listener
 		String biome = String.valueOf(event.getPlayer().getLocation().getBlock().getBiome());
 		
 		Material bucket = event.getBucket();
-		ItemStack result = event.getItemStack();
-		ItemStack mainBucket = player.getInventory().getItemInMainHand();
-		ItemStack offBucket = player.getInventory().getItemInOffHand();
+		Material result = event.getItemStack().getType();
+		Material mainBucket = player.getInventory().getItemInMainHand().getType();
+		Material offBucket = player.getInventory().getItemInOffHand().getType();
 				
     	if (PwnBuckets.logEnabled) 
     	{	
-    		PwnBuckets.logToFile("Bucket empty event for: " + bucket.toString() + " Main Hand: " + mainBucket.getType().toString() + " Off Hand: " + offBucket.getType().toString() + " Result: " + result.getType().toString());
+    		PwnBuckets.logToFile("Bucket empty event for: " + bucket.toString() + " Main Hand: " + mainBucket.toString() + " Off Hand: " + offBucket.toString() + " Result: " + result.toString());
     	}
     	
 		// if its water
-		if ((bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD") || bucket.toString().contains("AIR")) && (!player.hasPermission("pwnbuckets.waterbucket"))) {
+		if ((bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD")) && (!player.hasPermission("pwnbuckets.waterbucket"))) {
 		
 			
 			// if the biome has a bypass allow dumping water
@@ -79,18 +78,12 @@ public class WaterListener implements Listener
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
     			}	 
 	    		
-    			
-    			//NOTE: we don't really need to cancel event here - we can just let the event finish.. it will clear the bucket itself, 
-    			// and the evaporate task will clear the placed water block.
-    			
-    			// run the inventory change in a task
-    			
-    			/*
-    			if (mainBucket.getType().toString().contains("BUCKET")) {
+    			// need to cancel the event and manually change the inventory or else fast placing buckets can get around the plugin
+    			if (mainBucket == bucket) {
 	    			ClearBucketTask clearTask = new ClearBucketTask(player, true);
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
     			}
-    			else if (offBucket.getType().toString().contains("BUCKET")){
+    			else if (offBucket == bucket){
 	    			ClearBucketTask clearTask = new ClearBucketTask(player, false);
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
     			}
@@ -102,7 +95,7 @@ public class WaterListener implements Listener
 	    	    	}
     			}
     			
-	    		event.setCancelled(true);*/
+	    		event.setCancelled(true);
 	    		
     	    	if (PwnBuckets.logEnabled) 
     	    	{	
@@ -135,17 +128,12 @@ public class WaterListener implements Listener
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 120L);
     			}	 
 
-    			//NOTE: we don't really need to cancel event here - we can just let the event finish.. it will clear the bucket itself, 
-    			// and the evaporate task will clear the placed water block.
-    			
-    			// run the inventory change in a task
-    			
-    			/*
-    			if (mainBucket.getType() == Material.LAVA_BUCKET) {
+    			// need to cancel the event and manually change the inventory or else fast placing buckets can get around the plugin
+    			if (mainBucket == bucket) {
 	    			ClearBucketTask clearTask = new ClearBucketTask(player, true);
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
     			}
-    			else if (offBucket.getType() == Material.LAVA_BUCKET){
+    			else if (offBucket == bucket){
 	    			ClearBucketTask clearTask = new ClearBucketTask(player, false);
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
     			}
@@ -158,7 +146,6 @@ public class WaterListener implements Listener
     			}
     			
     			event.setCancelled(true);
-    			*/
     			
     		  	if (PwnBuckets.logEnabled) 
     	    	{	
@@ -191,8 +178,8 @@ public class WaterListener implements Listener
     		PwnBuckets.logToFile("Dispenser dispense event for: " + bucket.toString());
     	}
     	
-		//only care about water
-		if (bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD") || bucket.toString().contains("AIR"))
+		//only care about water buckets including fish buckets
+		if (bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD"))
 		{			
 			// if the biome has a bypass allow dumping water
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.dispenserBypass)) 
@@ -297,7 +284,7 @@ public class WaterListener implements Listener
 	
 	public boolean isWater(Block block)
 	{	
-		if(block.getType() == Material.STATIONARY_WATER || block.getType() == Material.WATER) 
+		if(block.getType() == Material.WATER) 
 		{
 			return true;
 		}
@@ -306,7 +293,7 @@ public class WaterListener implements Listener
 
 	public boolean isLava(Block block)
 	{	
-		if(block.getType() == Material.STATIONARY_LAVA|| block.getType() == Material.LAVA) 
+		if(block.getType() == Material.LAVA) 
 		{
 			return true;
 		}
