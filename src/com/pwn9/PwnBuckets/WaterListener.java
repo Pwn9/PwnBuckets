@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -58,9 +57,9 @@ public class WaterListener implements Listener
     	}
     	
 		// if its water
-		if ((bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD")) && (!player.hasPermission("pwnbuckets.waterbucket"))) {
-		
-			
+		if ((bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD")) && (!player.hasPermission("pwnbuckets.waterbucket"))) 
+		{
+
 			// if the biome has a bypass allow dumping water
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.bucketBypass)) 
 			{
@@ -80,24 +79,7 @@ public class WaterListener implements Listener
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
     			}	 
 	    		
-    			// need to cancel the event and manually change the inventory or else fast placing buckets can get around the plugin
-    			if (mainBucket == bucket) {
-	    			ClearBucketTask clearTask = new ClearBucketTask(player, true);
-	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
-    			}
-    			else if (offBucket == bucket){
-	    			ClearBucketTask clearTask = new ClearBucketTask(player, false);
-	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
-    			}
-    			else {
-    				// this shouldn't happen
-	    	    	if (PwnBuckets.logEnabled) 
-	    	    	{	
-	    	    		PwnBuckets.logToFile("Couldn't identify bucket hand.");
-	    	    	}
-    			}
-    			
-	    		event.setCancelled(true);
+    			// no need to cancel the event anymore, let it finish and evaporate the water
 	    		
     	    	if (PwnBuckets.logEnabled) 
     	    	{	
@@ -109,7 +91,8 @@ public class WaterListener implements Listener
 		}
 		
 		// if its lava
-		if (bucket.toString().contains("LAVA") && (!player.hasPermission("pwnbuckets.lavabucket"))) {
+		if (bucket.toString().contains("LAVA") && (!player.hasPermission("pwnbuckets.lavabucket"))) 
+		{
 			
 			// if the biome has a bypass allow dumping lava
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.lavaBucketBypass)) 
@@ -130,24 +113,7 @@ public class WaterListener implements Listener
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 120L);
     			}	 
 
-    			// need to cancel the event and manually change the inventory or else fast placing buckets can get around the plugin
-    			if (mainBucket == bucket) {
-	    			ClearBucketTask clearTask = new ClearBucketTask(player, true);
-	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
-    			}
-    			else if (offBucket == bucket){
-	    			ClearBucketTask clearTask = new ClearBucketTask(player, false);
-	    			plugin.getServer().getScheduler().runTaskLater(plugin, clearTask, 1L);
-    			}
-    			else {
-    				// this shouldn't happen
-	    	    	if (PwnBuckets.logEnabled) 
-	    	    	{	
-	    	    		PwnBuckets.logToFile("Couldn't identify bucket hand.");
-	    	    	}
-    			}
-    			
-    			event.setCancelled(true);
+    			// no need to cancel the event anymore, let it finish and evaporate the lava
     			
     		  	if (PwnBuckets.logEnabled) 
     	    	{	
@@ -240,7 +206,8 @@ public class WaterListener implements Listener
 	
 	// when ice melts?
 	@EventHandler(ignoreCancelled = true)
-	public void onBlockFade(BlockFadeEvent event) {
+	public void onBlockFade(BlockFadeEvent event) 
+	{
 
 		World world = event.getBlock().getWorld();
 		
@@ -287,11 +254,13 @@ public class WaterListener implements Listener
 	// to set a source water not flowing water
 	public boolean isWater(Block block)
 	{	
-		if ((block.getType() == Material.WATER) && (block.getBlockData() instanceof Levelled)) {
+		if ((block.getType() == Material.WATER) && (block.getBlockData() instanceof Levelled)) 
+		{
 		    Levelled levelledBlock = (Levelled) block.getBlockData();
 		    int level = levelledBlock.getLevel();
 		    //source block
-		    if (level == 0) {
+		    if (level == 0) 
+		    {
     	    	if (PwnBuckets.logEnabled) 
     	    	{	
     	    		PwnBuckets.logToFile("Placing bucket on an existing source block.");
@@ -305,11 +274,13 @@ public class WaterListener implements Listener
 	// to get a source lava not flowing lava
 	public boolean isLava(Block block)
 	{	
-		if ((block.getType() == Material.LAVA) && (block.getBlockData() instanceof Levelled)) {
+		if ((block.getType() == Material.LAVA) && (block.getBlockData() instanceof Levelled)) 
+		{
 		    Levelled levelledBlock = (Levelled) block.getBlockData();
 		    int level = levelledBlock.getLevel();
 		    //source block
-		    if (level == 0) {
+		    if (level == 0) 
+		    {
     	    	if (PwnBuckets.logEnabled) 
     	    	{	
     	    		PwnBuckets.logToFile("Placing bucket on an existing source block.");

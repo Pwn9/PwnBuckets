@@ -3,6 +3,7 @@ package com.pwn9.PwnBuckets;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Levelled;
 
 public class EvaporateLavaTask implements Runnable 
 {
@@ -41,15 +42,16 @@ public class EvaporateLavaTask implements Runnable
 	
 	public boolean isLava(Block block)
 	{
-		Block b = block;
-		
-		if (b.getType() == Material.LAVA) 
+		if ((block.getType() == Material.LAVA) && (block.getBlockData() instanceof Levelled)) 
 		{
-			return true;
-		}
-		else 
-		{
-			return false;
+		    Levelled levelledBlock = (Levelled) block.getBlockData();
+		    int level = levelledBlock.getLevel();
+		    //source block
+		    if (level == 0) 
+		    {		    	
+		    	return true;
+		    }
 		}		
+		return false;		
 	}	
 }
