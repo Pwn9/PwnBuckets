@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -67,9 +69,9 @@ public class WaterListener implements Listener
 	    	
 			if(PwnBuckets.blockWaterBucket)
 			{	
-				//event.setItemStack(emptyBucket);
     			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
 	    		
+    			block.getBlockData(); 
     			// If the block is already water then don't do anything, otherwise set it water then set it air for water effect.
     			if (!isWater(block)) 
     			{
@@ -262,7 +264,7 @@ public class WaterListener implements Listener
 	    	}
 	    	
 			//only care about water
-			if ((event.getNewState().getType() == Material.STATIONARY_WATER) || (event.getNewState().getType() == Material.WATER))
+			if (event.getNewState().getType() == Material.WATER)
 			{					
 
     			Block block = event.getBlock();
@@ -282,21 +284,39 @@ public class WaterListener implements Listener
 		
 	}
 	
+	// to set a source water not flowing water
 	public boolean isWater(Block block)
 	{	
-		if(block.getType() == Material.WATER) 
-		{
-			return true;
-		}
+		if ((block.getType() == Material.WATER) && (block.getBlockData() instanceof Levelled)) {
+		    Levelled levelledBlock = (Levelled) block.getBlockData();
+		    int level = levelledBlock.getLevel();
+		    //source block
+		    if (level == 0) {
+    	    	if (PwnBuckets.logEnabled) 
+    	    	{	
+    	    		PwnBuckets.logToFile("Placing bucket on an existing source block.");
+    	    	}		    	
+		    	return true;
+		    }
+		}		
 		return false;	
 	}		
 
+	// to get a source lava not flowing lava
 	public boolean isLava(Block block)
 	{	
-		if(block.getType() == Material.LAVA) 
-		{
-			return true;
-		}
+		if ((block.getType() == Material.LAVA) && (block.getBlockData() instanceof Levelled)) {
+		    Levelled levelledBlock = (Levelled) block.getBlockData();
+		    int level = levelledBlock.getLevel();
+		    //source block
+		    if (level == 0) {
+    	    	if (PwnBuckets.logEnabled) 
+    	    	{	
+    	    		PwnBuckets.logToFile("Placing bucket on an existing source block.");
+    	    	}				    	
+		    	return true;
+		    }
+		}		
 		return false;	
 	}	
 }

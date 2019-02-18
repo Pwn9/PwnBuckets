@@ -43,7 +43,7 @@ public class EvaporateLavaTask implements Runnable
 	{
 		Block b = block;
 		
-		if (b.getType() == Material.STATIONARY_LAVA || b.getType() == Material.LAVA) 
+		if (b.getType() == Material.LAVA) 
 		{
 			return true;
 		}

@@ -43,7 +43,7 @@ public class EvaporateWaterTask implements Runnable
 	{
 		Block b = block;
 		
-		if (b.getType() == Material.STATIONARY_WATER || b.getType() == Material.WATER) 
+		if (b.getType() == Material.WATER) 
 		{
 			return true;
 		}
