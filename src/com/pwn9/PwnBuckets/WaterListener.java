@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,8 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.material.Dispenser;
-import org.bukkit.material.MaterialData;
 
 public class WaterListener implements Listener 
 {
@@ -159,9 +158,7 @@ public class WaterListener implements Listener
 			{				
 				Block dispenser = event.getBlock();
 				// Get direction dispenser is facing 
-				MaterialData mat = dispenser.getState().getData(); 
-				Dispenser disp_mat = (Dispenser) mat; 
-				BlockFace face = disp_mat.getFacing(); 			
+				BlockFace face = ((Directional) dispenser.getBlockData()).getFacing();
 				Block block = dispenser.getRelative(face);			
 				
     			EvaporateWaterTask task = new EvaporateWaterTask(block);
@@ -187,9 +184,7 @@ public class WaterListener implements Listener
 			{				
 				Block dispenser = event.getBlock();
 				// Get direction dispenser is facing 
-				MaterialData mat = dispenser.getState().getData(); 
-				Dispenser disp_mat = (Dispenser) mat; 
-				BlockFace face = disp_mat.getFacing(); 			
+				BlockFace face = ((Directional) dispenser.getBlockData()).getFacing();
 				Block block = dispenser.getRelative(face);			
 				
     			EvaporateLavaTask task = new EvaporateLavaTask(block);
