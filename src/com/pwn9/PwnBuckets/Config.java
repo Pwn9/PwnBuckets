@@ -25,7 +25,13 @@ public class Config
 		PwnBuckets.blockIceMelt = PwnBuckets.instance.getConfig().getBoolean("block_ice_melt", false);
 		
 		// Get ice melt bypass settings
-		PwnBuckets.icemeltBypass = PwnBuckets.instance.getConfig().getStringList("ice_melt_allowed_biomes");
+		PwnBuckets.iceMeltBypass = PwnBuckets.instance.getConfig().getStringList("ice_melt_allowed_biomes");
+
+		// Get ice melt setting
+		PwnBuckets.blockIceBreak = PwnBuckets.instance.getConfig().getBoolean("block_ice_break", false);
+		
+		// Get ice melt bypass settings
+		PwnBuckets.iceBreakBypass = PwnBuckets.instance.getConfig().getStringList("ice_break_allowed_biomes");
 		
 		// Get lava source setting
 		PwnBuckets.blockLavaBucket = PwnBuckets.instance.getConfig().getBoolean("block_lava_bucket", false);

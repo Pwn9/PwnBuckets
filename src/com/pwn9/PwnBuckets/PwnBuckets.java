@@ -29,13 +29,15 @@ public class PwnBuckets extends JavaPlugin
 	public static Boolean blockWaterDispenser;
 	public static Boolean blockLavaDispenser;
 	public static Boolean blockIceMelt;
+	public static Boolean blockIceBreak;	
 	public static Boolean blockCreativeSource;	
 	public static List<String> enabledWorlds;
 	public static List<String> bucketBypass;
 	public static List<String> lavaBucketBypass;
 	public static List<String> dispenserBypass;
 	public static List<String> lavaDispenserBypass;
-	public static List<String> icemeltBypass;
+	public static List<String> iceMeltBypass;
+	public static List<String> iceBreakBypass;
 
 	public void onEnable() 
 	{

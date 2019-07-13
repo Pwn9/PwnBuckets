@@ -20,6 +20,12 @@ block_ice_melt: false
 
 # Biome bypass for ice melt, list type: [beach, ocean] (anything from this list https://hub.spigotmc.org/javadocs/spigot/org/bukkit/block/Biome.html)
 ice_melt_allowed_biomes: []
+
+# Globally stop breaking ice from becoming source blocks
+block_ice_break: false
+
+# Biome bypass for ice breaking, list type: [beach, ocean] (anything from this list https://hub.spigotmc.org/javadocs/spigot/org/bukkit/block/Biome.html)
+ice_break_allowed_biomes: []
    
 # Globally stop buckets from transporting lava source blocks
 block_lava_bucket: false   

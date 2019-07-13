@@ -10,6 +10,7 @@ import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
@@ -209,7 +210,7 @@ public class WaterListener implements Listener
 		String biome = String.valueOf(event.getBlock().getBiome());
 		
 		// if the biome has a bypass, allow ice to melt
-		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.icemeltBypass)) {
+		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.iceMeltBypass)) {
 			return;
 		}
 		
@@ -245,6 +246,53 @@ public class WaterListener implements Listener
     	}	
 		
 	}
+	
+	// when ice is broken
+	@EventHandler(ignoreCancelled = true)
+	public void onBlockBreak(BlockBreakEvent event) 
+	{
+
+		// if break event is not on ice, we don't care about it
+		if (event.getBlock().getType() != Material.ICE) {
+			return;
+		}
+		
+		World world = event.getBlock().getWorld();
+		
+		String biome = String.valueOf(event.getBlock().getBiome());
+		
+		// if the biome has a bypass, allow ice to melt
+		if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.iceBreakBypass)) {
+			return;
+		}
+		
+		// if the plugin isn't enabled for this world, return
+		if (!PwnBuckets.isEnabledIn(world.getName())) {
+			return;
+		}		
+		
+		if(PwnBuckets.blockIceBreak)
+    	{			
+	    	if (PwnBuckets.logEnabled) 
+	    	{	
+	    		PwnBuckets.logToFile("Ice Block break event result: " + event.getBlock().getState().getType().toString());
+	    	}
+	    					
+			Block block = event.getBlock();
+			
+			block.setType(Material.WATER);
+			EvaporateWaterTask task = new EvaporateWaterTask(block);
+			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
+			
+    		event.setCancelled(true);
+			
+	    	if (PwnBuckets.logEnabled) 
+	    	{	
+	    		PwnBuckets.logToFile("Blocked water source from ice break");
+	    	}
+    	}	
+		
+	}	
 	
 	// to set a source water not flowing water
 	public boolean isWater(Block block)
