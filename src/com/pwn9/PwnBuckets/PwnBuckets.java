@@ -11,11 +11,6 @@ import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.pwn9.PwnBuckets.MetricsLite;
-import com.pwn9.PwnBuckets.PwnBuckets;
-import com.pwn9.PwnBuckets.WaterListener;
-import com.pwn9.PwnBuckets.Config;
-
 public class PwnBuckets extends JavaPlugin 
 {
 	
