@@ -56,8 +56,8 @@ public class WaterListener implements Listener
     		PwnBuckets.logToFile("Bucket empty event for: " + bucket.toString() + " Main Hand: " + mainBucket.toString() + " Off Hand: " + offBucket.toString() + " Result: " + result.toString());
     	}
     	
-		// if its water
-		if ((bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD")) && (!player.hasPermission("pwnbuckets.waterbucket"))) 
+		// if its water or buckets of fish
+		if ((bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("AXOLOTL") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD")) && (!player.hasPermission("pwnbuckets.waterbucket"))) 
 		{
 
 			// if the biome has a bypass allow dumping water
@@ -147,7 +147,7 @@ public class WaterListener implements Listener
     	}
     	
 		//only care about water buckets including fish buckets
-		if (bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD"))
+		if (bucket.toString().contains("WATER") || bucket.toString().contains("FISH") || bucket.toString().contains("AXOLOTL") || bucket.toString().contains("SALMON") || bucket.toString().contains("COD"))
 		{			
 			// if the biome has a bypass allow dumping water
 			if (PwnBuckets.containsCaseInsensitive(biome, PwnBuckets.dispenserBypass)) 
