@@ -1,6 +1,27 @@
+# PwnBuckets
+
 PwnBuckets is a Bukkit plugin that aims to make the dissemination of
 liquids, particular water, act in a more natural way. Basically, 
-eliminating the "source" block and the infinite water pools.
+eliminating the "source" block and the infinite water pools. It 
+also applies to lava blocks, ice blocks, buckets and dispensers. 
+Using this plugin adds an extra element of realism and difficulty 
+to the Minecraft experience.
+
+## Installation
+
+1. Stop your server.
+2. Place the PwnBuckets.jar in your /plugins directory.
+3. Start your server, note the /plugins/PwnBuckets/config.yml 
+4. Stop your server.
+5. Edit the /plugins/PwnBuckets/config.yml to your liking. 
+   (Please note by default - all settings in our config are DISABLED)
+6. Start your server.
+
+Note: It is important to always test ANY plugin you install prior 
+to deploying it for production, you as a server admin, should 
+always consider this to be Rule 1 of running a server.
+
+## Info
 
 Plugin development by: tREMor
 
