@@ -3,7 +3,7 @@ name: PwnBuckets
 version: 1.6
 author: tremor77
 description: Make water behave more like... water.
-website: http://pwn9.com
+website: https://www.pwn9.com
 api-version: 1.13
 permissions:
   pwnbuckets.waterbucket: 

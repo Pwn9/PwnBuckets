@@ -41,7 +41,7 @@ public class PwnBuckets extends JavaPlugin
 		this.saveDefaultConfig();
 		
 		// Start Metrics
-	    MetricsLite metricslite = new MetricsLite(this);
+	    Metrics metrics = new Metrics(this, 3257);
 	
 		// Setup listeners
 		new WaterListener(this);
