@@ -5,8 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Levelled;
+import org.bukkit.block.data.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -68,9 +67,21 @@ public class WaterListener implements Listener
 	    	
 			if(PwnBuckets.blockWaterBucket)
 			{	
+				//TODO: this won't work for blocks that can be waterlogged 
+				//BUG: seems to set some solid blocks to air...
+							
     			Block block = event.getBlockClicked().getRelative(event.getBlockFace());
-	    		
-    			block.getBlockData(); 
+    			
+    			// lets also get the block clicked
+    			Block eblock = event.getBlockClicked();
+    			
+	    		if (isWaterLog(eblock))
+	    		{
+	    			// got a plan?
+	    		}
+
+    			
+    			
     			// If the block is already water then don't do anything, otherwise set it water then set it air for water effect.
     			if (!isWater(block)) 
     			{
@@ -79,8 +90,8 @@ public class WaterListener implements Listener
 	    			plugin.getServer().getScheduler().runTaskLater(plugin, task, 30L);
     			}	 
 	    		
+    			
     			// no need to cancel the event anymore, let it finish and evaporate the water
-	    		
     	    	if (PwnBuckets.logEnabled) 
     	    	{	
     	    		PwnBuckets.logToFile("Blocked water source from bucket");
@@ -312,7 +323,26 @@ public class WaterListener implements Listener
 		    }
 		}		
 		return false;	
-	}		
+	}	
+	
+	// determine if the location is a waterlogged block
+	public boolean isWaterLog(Block block)
+	{
+		if (block.getBlockData() instanceof Waterlogged)
+		{
+			Waterlogged wetBlock = (Waterlogged) block.getBlockData();
+			if (wetBlock.isWaterlogged())
+			{
+				//wetBlock.setWaterlogged(false);
+    	    	if (PwnBuckets.logEnabled) 
+    	    	{	
+    	    		PwnBuckets.logToFile("Placing bucket on waterlogged block.");
+    	    	}				
+				return true;
+			}
+		}
+		return false;
+	}	
 
 	// to get a source lava not flowing lava
 	public boolean isLava(Block block)
